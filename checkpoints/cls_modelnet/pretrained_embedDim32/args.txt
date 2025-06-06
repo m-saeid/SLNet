@@ -1,0 +1,36 @@
+n:	 1024
+embed:	 [3, 32, 'adaptive', 'yes', 0.4, 1000.0, 100.0]
+initial_dim:	 3
+embed_dim:	 32
+alpha_beta:	 yes
+sigma:	 0.4
+alpha:	 1000.0
+beta:	 100.0
+res_dim_ratio:	 0.25
+bias:	 False
+use_xyz:	 True
+norm_mode:	 anchor
+std_mode:	 BN11
+dim_ratio:	 [2, 2, 2, 1]
+num_blocks1:	 [1, 1, 2, 1]
+transfer_mode:	 ['mlp', 'mlp', 'mlp', 'mlp']
+block1_mode:	 ['mlp', 'mlp', 'mlp', 'mlp']
+num_blocks2:	 [1, 1, 2, 1]
+block2_mode:	 ['mlp', 'mlp', 'mlp', 'mlp']
+k_neighbors:	 [32, 32, 32, 32]
+sampling_mode:	 ['fps', 'fps', 'fps', 'fps']
+sampling_ratio:	 [2, 2, 2, 2]
+classifier_mode:	 mlp_very_large
+checkpoint:	 checkpoints/cls_modelnet/-20250403072607-42
+msg:	 None
+batch_size:	 50
+epoch:	 300
+learning_rate:	 0.1
+min_lr:	 0.005
+weight_decay:	 0.0002
+seed:	 42
+workers:	 6
+ema:	 yes
+model:	 cls_modelnet
+path:	 checkpoints/cls_modelnet/-20250403072607-42
+param:	 548160
