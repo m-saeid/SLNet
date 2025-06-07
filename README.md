@@ -162,12 +162,18 @@ A lightweight PyTorch implementation of SLNet, a superlight network for point cl
        │   └── *.h5
        ├── scanobject/
        │   └── h5_files/
-       │       └── *.h5
+       │       └── main_split
+       |           └── *.h5
        ├── shapenetcore_partanno_segmentation_benchmark_v0_normal/
-       │   ├── train_test_split/
-       │   └── *.h5
+       │   ├── synsetoffset2category.txt
+       │   └── 02691156
+       │   └── 02773838
+       │   └── ...
        └── modelnet_fewshot/
-           └── ...
+           └── 5way_10shot
+           └── 5way_20shot
+           └── 10way_10shot
+           └── 10way_20shot
    ```
 
 3. **Preprocessing**
