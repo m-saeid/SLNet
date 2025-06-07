@@ -336,7 +336,7 @@ bash scripts/attention_map.sh
 
 The following setup was used to reproduce results and benchmarks:
 
-* **GPU:** NVIDIA GeForce RTX 3090 (CUDA 12.0 driver)
+* **GPU:** NVIDIA GeForce RTX 3090/2080 (CUDA 12.0 driver)
 
   ```bash
   $ nvidia-smi
