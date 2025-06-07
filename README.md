@@ -340,26 +340,27 @@ The following setup was used to reproduce results and benchmarks:
 
   ```bash
   $ nvidia-smi
-  Fri Jun  6 17:16:19 2025
+  +---------------------------------------------------------------------------------------+
+  | NVIDIA-SMI 535.183.01             Driver Version: 535.183.01   CUDA Version: 12.2     |
+  |-----------------------------------------+----------------------+----------------------+
+
   +-----------------------------------------------------------------------------+
   | NVIDIA-SMI 525.147.05   Driver Version: 525.147.05   CUDA Version: 12.0     |
   |-------------------------------+----------------------+----------------------|
   ```
-  <!--
-  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-  |                               |                      |               MIG M. |
-  |===============================+======================+======================|
-  |   0  NVIDIA GeForce ...  Off  | 00000000:01:00.0  On |                  N/A |
-  |  0%   44C    P8     2W / 300W |    332MiB / 11264MiB |      6%      Default |
-  |                               |                      |                  N/A |
-  +-------------------------------+----------------------+----------------------+
-  -->
 
 * **CUDA Compiler Version:**
 
   ```
   $ nvcc --version
+
+  nvcc: NVIDIA (R) Cuda compiler driver
+  Copyright (c) 2005-2022 NVIDIA Corporation
+  Built on Wed_Sep_21_10:33:58_PDT_2022
+  Cuda compilation tools, release 11.8, V11.8.89
+  Build cuda_11.8.r11.8/compiler.31833905_0
+
+  
   nvcc: NVIDIA (R) Cuda compiler driver
   Copyright (c) 2005-2022 NVIDIA Corporation
   Built on Wed_Sep_21_10:33:58_PDT_2022
