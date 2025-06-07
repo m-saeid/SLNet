@@ -330,7 +330,7 @@ bash scripts/attention_map.sh
 
 The following setup was used to reproduce results and benchmarks:
 
-* **GPU:** NVIDIA GeForce RTX 3080 (CUDA 12.0 driver)
+* **GPU:** NVIDIA GeForce RTX 3090 (CUDA 12.0 driver)
 
   ```bash
   $ nvidia-smi
@@ -338,6 +338,8 @@ The following setup was used to reproduce results and benchmarks:
   +-----------------------------------------------------------------------------+
   | NVIDIA-SMI 525.147.05   Driver Version: 525.147.05   CUDA Version: 12.0     |
   |-------------------------------+----------------------+----------------------|
+  ```
+  <!--
   | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
   | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
   |                               |                      |               MIG M. |
@@ -346,7 +348,7 @@ The following setup was used to reproduce results and benchmarks:
   |  0%   44C    P8     2W / 300W |    332MiB / 11264MiB |      6%      Default |
   |                               |                      |                  N/A |
   +-------------------------------+----------------------+----------------------+
-  ```
+  -->
 
 * **CUDA Compiler Version:**
 
@@ -370,9 +372,9 @@ The following setup was used to reproduce results and benchmarks:
 If you find SLNet useful, please cite:
 
 ```bibtex
-@inproceedings{yourname2025slnet,
+@inproceedings{name2025slnet,
   title     = {SLNet: A Superlight Network for Point Cloud Learning with Hybrid Nonparametric Embedding},
-  author    = {Your Name and Coauthors},
+  author    = {Authors},
   booktitle = {Conference/Journal Name},
   year      = {2025},
   pages     = {XXX--XXX},
@@ -383,3 +385,4 @@ If you find SLNet useful, please cite:
 ---
 
 For any questions or bug reports, please open an issue on this repository or contact the authors directly.
+imm.saeid@gmail.com
