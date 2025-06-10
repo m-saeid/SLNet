@@ -14,23 +14,23 @@ class Decoder(nn.Module):
                  task="partseg_shapenet",
 
                  # Encoder:
-                 n=1024,
-                 embed=[3,16,'no',True],
-                 res_dim_ratio=1.0,
-                 bias=True,
+                 n=2048,
+                 embed=[6,16,'no','yes',0.4],
+                 res_dim_ratio=0.25,
+                 bias=False,
                  use_xyz=True,
-                 norm_mode="center",
-                 std_mode="BN1D",
-                 dim_ratio=[2, 2, 2, 2],
+                 norm_mode="anchor",
+                 std_mode="BN11",
+                 dim_ratio=[2, 2, 2, 1],
 
-                 num_blocks1=[2, 2, 2, 2],
+                 num_blocks1=[1, 1, 2, 1],
                  transfer_mode = ['mlp', 'mlp', 'mlp', 'mlp'],
-                 block1_mode = ['mlp', 'mlp', 'gaussian', 'mlp'],
+                 block1_mode = ['mlp', 'mlp', 'mlp', 'mlp'],
 
-                 num_blocks2=[2, 2, 2, 2],
+                 num_blocks2=[1, 1, 2, 1],
                  block2_mode = ['mlp', 'mlp', 'mlp', 'mlp'],
 
-                 k_neighbors=[32, 32, 32, 32],
+                 k_neighbors=[24, 24, 24, 24],
                  sampling_mode=['fps', 'fps', 'fps', 'fps'],
                  sampling_ratio=[2, 2, 2, 2],
 
