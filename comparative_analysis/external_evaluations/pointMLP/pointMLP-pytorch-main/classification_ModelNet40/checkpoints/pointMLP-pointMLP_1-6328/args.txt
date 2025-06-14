@@ -1,0 +1,11 @@
+checkpoint:	 checkpoints/pointMLP-pointMLP_1-6328
+msg:	 pointMLP_1
+batch_size:	 28
+model:	 pointMLP
+epoch:	 300
+num_points:	 1024
+learning_rate:	 0.1
+min_lr:	 0.005
+weight_decay:	 0.0002
+seed:	 6328
+workers:	 6
