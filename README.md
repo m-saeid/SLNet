@@ -1,4 +1,4 @@
-# SLNet: A Superlight Network for Point Cloud Learning with Hybrid Nonparametric Embedding
+# SLNet: A Superlight Network for Point Cloud Learning with Nonparametric Adaptive Point Embedding
 
 A lightweight PyTorch implementation of SLNet, a superlight network for point cloud classification and segmentation based on the paper [“SLNet: A Superlight Network for Point Cloud Learning with Hybrid Nonparametric Embedding”](https://arxiv.org/abs/XXXX.XXXX). SLNet uses a novel Nonparametric Adaptive Point Embedding (NAPE) module combined with a minimal Geometric Modulation Unit (GMU) to achieve competitive accuracy with only 0.14M parameters and without relying on attention, graph convolutions, or deep residual stacks.
 
