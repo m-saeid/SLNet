@@ -114,7 +114,16 @@ A lightweight PyTorch implementation of SLNet, a superlight network for point cl
    pip install -r requirements.txt
    ```
 
-3. **Install `pointnet2_ops_lib`**
+3. **Install `gcc-10 g++-10`**
+   ```bash
+   sudo apt update
+   sudo apt install gcc-10 g++-10
+   
+   export CC=gcc-10
+   export CXX=g++-10
+   ```
+
+4. **Install `pointnet2_ops_lib`**
 
    ```bash
    cd pointnet2_ops_lib
@@ -122,7 +131,7 @@ A lightweight PyTorch implementation of SLNet, a superlight network for point cl
    cd ..
    ```
 
-4. **Install `pytorch3d`**
+5. **Install `pytorch3d`**
 
    ```bash
    cd pytorch3d
@@ -130,7 +139,7 @@ A lightweight PyTorch implementation of SLNet, a superlight network for point cl
    cd ..
    ```
 
-5. **Verify CUDA & GPU setup**
+6. **Verify CUDA & GPU setup**
 
    * Ensure CUDA 11.x or 12.x is installed and matches your GPU drivers.
    * Confirm with:
