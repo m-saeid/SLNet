@@ -46,20 +46,20 @@ class NAPE(nn.Module):
     """
     def __init__(self, in_dim, out_dim, sigma=0.4, baseline=0.1, scaling=10.0, eps=1e-6):
         super(NAPE, self).__init__()
-        self.in_dim = in_dim
-        self.out_dim = out_dim
-        self.base_sigma = sigma  # base kernel width
-        self.baseline = baseline
-        self.scaling = scaling
-        self.eps = eps
+        self.in_dim = in_dim                          # 3
+        self.out_dim = out_dim                        # 32
+        self.base_sigma = sigma  # base kernel width  # 0.4
+        self.baseline = baseline                      # 0.1
+        self.scaling = scaling                        # 10.0
+        self.eps = eps                                # 1e-06
         
-        feat_dim = math.ceil(out_dim / in_dim)
-        self.feat_num = feat_dim * in_dim
-        self.out_idx = torch.linspace(0, self.feat_num - 1, out_dim).long()
+        feat_dim = math.ceil(out_dim / in_dim)                                        # out_dim/3  11
+        self.feat_num = feat_dim * in_dim                                             # out_dim    33
+        self.out_idx = torch.linspace(0, self.feat_num - 1, out_dim).long()           # [0,1,2, out_dim]  [0,1,...,30,32] len=32
         # Fixed grid of values for embedding (excluding endpoints)
-        self.feat_val = torch.linspace(-1.0, 1.0, feat_dim + 2)[1:-1].reshape(1, -1)
+        self.feat_val = torch.linspace(-1.0, 1.0, feat_dim + 2)[1:-1].reshape(1, -1)  # [-0.8, -0.6, ..., 0.6, 0.8] len=11
         
-    def forward(self, xyz): # b,in_d,n  8,3,1024
+    def forward(self, xyz):                                               # b,in_d,n  8,3,1024
         """
         Args:
           xyz: Tensor of shape [B, N, in_dim] or [B, S, K, in_dim]
@@ -69,13 +69,13 @@ class NAPE(nn.Module):
         """
 
         if xyz.shape[-1] != 3:
-            xyz = xyz.permute(0,2,1)        # b,n,in_d  8,1024,3
+            xyz = xyz.permute(0,2,1)                                        # b,n,in_dim  8,1024,3
 
-        if self.out_dim == 0:
+        if self.out_dim == 0:                                               # out_dim  32
             return xyz
-        if xyz.dim() == 3:
+        if xyz.dim() == 3:                                                  # in_dim  3
             # Compute global standard deviation across points (dim=1)
-            global_std = torch.mean(torch.std(xyz, dim=1))
+            global_std = torch.mean(torch.std(xyz, dim=1))                  # Scalar number
         elif xyz.dim() == 4:
             # Reshape to [B, -1, in_dim] and compute standard deviation over points
             global_std = torch.mean(torch.std(xyz.view(xyz.size(0), -1, self.in_dim), dim=1))
@@ -83,26 +83,26 @@ class NAPE(nn.Module):
             raise ValueError("Input must be 3D or 4D")
         
         # Adaptive sigma: scale the base sigma by (1 + global_std)
-        adaptive_sigma = self.base_sigma * (1 + global_std)
+        adaptive_sigma = self.base_sigma * (1 + global_std)                 # Scalar number
         # Adaptive blend weight via sigmoid; yields a value in (0,1)
-        blend = torch.sigmoid((global_std - self.baseline) * self.scaling)
+        blend = torch.sigmoid((global_std - self.baseline) * self.scaling)  # Scalar number 
         
         embeds = []
-        for i in range(self.in_dim):
+        for i in range(self.in_dim):                                        # 3 times
             # Compute difference from fixed grid values
-            tmp = xyz[..., i:i+1] - self.feat_val.to(xyz.device)
+            tmp = xyz[..., i:i+1] - self.feat_val.to(xyz.device)            # 8,1024,11 = 8,1024,1 - 1,11
             # Gaussian (RBF) component using adaptive sigma
-            rbf = (-0.5 * (tmp / (adaptive_sigma + self.eps))**2).exp()
+            rbf = (-0.5 * (tmp / (adaptive_sigma + self.eps))**2).exp()     # 8,1024,11
             # Cosine component using the same adaptive sigma for scaling
-            cosine = torch.cos(tmp / (adaptive_sigma + self.eps))
+            cosine = torch.cos(tmp / (adaptive_sigma + self.eps))           # 8,1024,11
             # Adaptive fusion of the two components:
-            combined = blend * rbf + (1 - blend) * cosine
-            embeds.append(combined)
+            combined = blend * rbf + (1 - blend) * cosine                   # 8,1024,11
+            embeds.append(combined)                                         # [8,1024,11  8,1024,11  8,1024,11]
         
         # Concatenate all channels and select the desired output dimensions
-        position_embed = torch.cat(embeds, dim=-1)
-        position_embed = torch.index_select(position_embed, -1, self.out_idx.to(xyz.device))    # b,n,out_d  8,1024,64
-        return position_embed     # .permute(0,2,1)     # b,n,out_d  8,1024,64
+        position_embed = torch.cat(embeds, dim=-1)                          # 8.1024.33
+        position_embed = torch.index_select(position_embed, -1, self.out_idx.to(xyz.device))    # b,n,out_dim  b,n,out_d  8,1024,32
+        return position_embed                                               # b,n,out_dim  8,1024,32
 
 
 if __name__ == '__main__':
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     batch_size = 8
     input_dim = 3       # e.g., xyz coordinates
     num_points = 1024
-    output_dim = 64
+    output_dim = 32
 
     # Create a random input tensor with shape [B, C, N]
     x = torch.randn(batch_size, input_dim, num_points)

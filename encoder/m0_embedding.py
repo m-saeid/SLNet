@@ -22,9 +22,9 @@ class Embedding(nn.Module):
 
         if mode == "no":
             self.embd = nn.Identity()
-        elif mode == 'mlp': #########################################################
+        elif mode == 'mlp':
             self.embd = mlp(input_dim, output_dim)
-        elif mode == 'nape' or mode == 'adaptive':
+        elif mode == 'nape':
             self.embd = NAPE(input_dim, output_dim, sigma)
         else:
             raise Exception(f"transfer_mode!!! {mode}")
