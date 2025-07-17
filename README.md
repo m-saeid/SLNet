@@ -1,13 +1,11 @@
 # SLNet: A Superlight Network for Point Cloud Learning with Nonparametric Adaptive Point Embedding
 
-A lightweight PyTorch implementation of SLNet, a superlight network for point cloud classification and segmentation based on the paper [“SLNet: A Superlight Network for Point Cloud Learning with Hybrid Nonparametric Embedding”](https://arxiv.org/abs/XXXX.XXXX). SLNet uses a novel Nonparametric Adaptive Point Embedding (NAPE) module combined with a minimal Geometric Modulation Unit (GMU) to achieve competitive accuracy with only 0.14M parameters and without relying on attention, graph convolutions, or deep residual stacks.
+A PyTorch implementation of SLNet, a superlight network for point cloud classification and segmentation based on the paper [“SLNet: A Super‑Lightweight and Geometry‑Adaptive Network\\for 3D Point Cloud Classification and Segmentation”](https://arxiv.org/abs/XXXX.XXXX). SLNet uses a novel Nonparametric Adaptive Point Embedding (NAPE) module which embeds raw 3D coordinates using a parameter-free fusion of Gaussian and cosine responses with adaptive bandwidth and  blending, combined with a minimal Geometric Modulation Unit (GMU) which applies lightweight per-channel affine transforms for scale-aware feature modulation, a parameter-free normalization block enables expansion of feature dimensionality without added parameters, and shared lightweight residual MLPs refine features with minimal overhead to achieve competitive accuracy with only 0.14M/0.54M parameters and without relying on attention, graph convolutions, or deep residual stacks.
 
 ---
 
 ## Table of Contents
 
-* [Paper Abstract](#paper-abstract)
-* [Features](#features)
 * [Repository Structure](#repository-structure)
 * [Installation](#installation)
 * [Dataset Preparation](#dataset-preparation)
@@ -22,38 +20,6 @@ A lightweight PyTorch implementation of SLNet, a superlight network for point cl
   * [Attention Map Visualization](#attention-map-visualization)
 * [Directory Details](#directory-details)
 * [System Requirements](#system-requirements)
-* [Citation](#citation)
-
----
-
-## Paper Abstract
-
-> Point cloud understanding has advanced rapidly with deep neural architectures that exploit local geometry and permutation invariance. However, state-of-the-art models often rely on expensive modules—such as attention layers, graph convolutions, or deep residual stacks—resulting in high memory and compute costs. In this paper, we propose SLNet, a superlight network for point cloud classification and segmentation that combines nonparametric encoding with minimal parameterization. At its core is a novel Nonparametric Adaptive Point Embedding (NAPE) module that maps raw 3D coordinates to a high-dimensional space using a hybrid of Gaussian radial basis functions and cosine encodings. The kernel bandwidth is adapted to the spatial dispersion of the input, enabling flexible geometric modeling without learnable weights. A lightweight Geometric Modulation Unit (GMU) introduces per-channel affine adaptation at negligible cost. These components feed into a residual shared-MLP backbone that omits graph or attention-based operations entirely. Despite its extreme compactness (only 0.14M parameters), SLNet achieves competitive accuracy on ModelNet40 and strong generalization on part and semantic segmentation tasks. We also demonstrate that NAPE alone can power a zero-parameter, similarity-based classifier with surprising effectiveness, highlighting its strong geometric inductive bias.
-
----
-
-## Features
-
-* **Nonparametric Adaptive Point Embedding (NAPE):**
-
-  * Hybrid of Gaussian radial basis functions and cosine encodings.
-  * Adapted kernel bandwidth based on spatial dispersion—no learnable weights.
-
-* **Geometric Modulation Unit (GMU):**
-
-  * Per-channel affine adaptation at negligible computational cost.
-
-* **Residual Shared-MLP Backbone:**
-
-  * No attention layers, graph convolutions, or deep residual stacks—extremely lightweight.
-
-* **Zero-Parameter Classifier:**
-
-  * NAPE alone can act as a similarity-based classifier.
-
-* **Competitive Performance:**
-
-  * \~0.14M parameters, achieves state-of-the-art‐adjacent accuracy on ModelNet40, ScanObjectNN, and ShapeNet part segmentation.
 
 ---
 
@@ -382,23 +348,3 @@ The following setup was used to reproduce results and benchmarks:
 * **PyTorch ≥1.10**, **PyTorch3D**, **h5py**, **NumPy**, **SciPy**, etc. (see `requirements.txt`)
 
 ---
-
-## Citation
-
-If you find SLNet useful, please cite:
-
-```bibtex
-@inproceedings{name2025slnet,
-  title     = {SLNet: A Superlight Network for Point Cloud Learning with Hybrid Nonparametric Embedding},
-  author    = {Authors},
-  booktitle = {Conference/Journal Name},
-  year      = {2025},
-  pages     = {XXX--XXX},
-  url       = {https://arxiv.org/abs/XXXX.XXXX}
-}
-```
-
----
-
-For any questions or bug reports, please open an issue on this repository or contact the authors directly.
-imm.saeid@gmail.com
