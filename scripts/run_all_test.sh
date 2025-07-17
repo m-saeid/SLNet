@@ -1,4 +1,4 @@
-EPOCH=1
+EPOCH=1                 # Test All Models with 1 Epoch
 FPS_METHOD='pointops2'  # [pytorch3d, pointops2, pytorch]
 KNN_METHOD='pytorch3d'  # [pytorch3d, pytorch]
 

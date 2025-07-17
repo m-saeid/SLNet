@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # export CUDA_VISIBLE_DEVICES=0
 
 N=1024

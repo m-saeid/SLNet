@@ -1,9 +1,7 @@
 #!/bin/bash
 
-
 # Set which GPU(s) to use
-# export CUDA_VISIBLE_DEVICES=0  # Use GPU 1s
-
+# export CUDA_VISIBLE_DEVICES=0
 
 # export TORCH_USE_CUDA_DSA=1
 

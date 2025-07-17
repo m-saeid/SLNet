@@ -19,12 +19,11 @@ class FeaturePropagation(nn.Module):
         else:
             raise Exception(f"de_fp_fuse!!! {de_fp_fuse}")   
 
-
         self.extraction = Block2(out_channel, de_fp_block, blocks, res_dim_ratio=res_expansion, bias=bias)
 
     def forward(self, xyz1, xyz2, points1, points2):
         # (1)      2,256,3  2,128,3  2,128,256  2,128,128
-        # (2)
+        # (2)      ...
         """
         Input:
             xyz1: input points position data, [B, N, 3]

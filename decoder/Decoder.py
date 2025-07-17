@@ -50,8 +50,8 @@ class Decoder(nn.Module):
 
                  num_cls = 50,
                  classifier_mode = 'mlp',
-                 fps_method = 'pytorch', #'pointops2',
-                 knn_method = 'pytorch', #'pytorch3d',
+                 fps_method = 'pointops2',     # ['pointops2', 'pytorch3d', 'pytorch']
+                 knn_method = 'pytorch3d',     # ['pytorch3d', 'pytorch']
                  **kwargs):
         
         super(Decoder, self).__init__()

@@ -1,4 +1,3 @@
-
 # Set which GPU(s) to use
 # export CUDA_VISIBLE_DEVICES=1  # Use GPU 1s
 

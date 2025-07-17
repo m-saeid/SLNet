@@ -6,7 +6,6 @@ try:
 except:
     from encoder_util import index_points, knn_point, query_ball_point
 
-
 try:
     from pytorch3d.ops import knn_points
 except:

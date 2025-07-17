@@ -108,7 +108,7 @@ encoder = Encoder(n=1024, embed=[3,16,'no',False], res_dim_ratio=0.25, bias=Fals
                             dim_ratio=[2, 2, 2, 1], num_blocks1=[1, 1, 2, 1], num_blocks2=[1, 1, 2, 1],
                             k_neighbors=[24,24,24,24], sampling_mode=['fps', 'fps', 'fps', 'fps'],
                             sampling_ratio=[2, 2, 2, 2],
-                            fps_method='pytorch', knn_method='pytorch')
+                            fps_method='pointops2', knn_method='pytorch3d')
 
 
 if __name__ == '__main__':

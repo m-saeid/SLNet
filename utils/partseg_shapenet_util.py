@@ -5,6 +5,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = re.findall('(.*)/utils', BASE_DIR)[0]
 sys.path.append(BASE_DIR)
 
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 # from __future__ import print_function
 import os
@@ -25,8 +26,6 @@ import random
 from decoder.Decoder import Decoder
 import datetime
 import shutil
-
-#os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 classes_str = ['aero','bag','cap','car','chair','ear','guitar','knife','lamp','lapt','moto','mug','Pistol','rock','stake','table']
 

@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 class Normalization(nn.Module):
     def __init__(self, d, norm_mode="anchor", std_mode="1111", use_xyz=True, **kwargs): # norm_mode: "anchor" or "center" or "nearest_to_mean" | std_mode: "1111" or "B111" or "BN11" or "BN1D"
         super(Normalization, self).__init__()
@@ -54,7 +53,6 @@ class Normalization(nn.Module):
 
             f_grouped = (f_grouped-mean)/(std + 1e-5) #  (2,512,24,19) = (2,512,24,19)/(2,1,1,1)
             
-
             # f = self.affine_alpha*f_grouped + self.affine_beta
                                         # f_sampled > [2,512,16]
         f_grouped = torch.cat([f_grouped, f_sampled.view(b, s, 1, -1).repeat(1, 1, k, 1)], dim=-1)  # cat([2,512,24,19],[2,512,24,16]) > [2,512,24,35]
