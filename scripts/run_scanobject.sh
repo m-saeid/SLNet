@@ -3,7 +3,7 @@
 # export CUDA_VISIBLE_DEVICES=0
 
 N=1024
-EMBED_Scanobject='no'                 # ('no' 'mlp' 'nape') > no: nape is performed in dataloader
+EMBED_Scanobject='no'                 # ('no' 'mlp' 'nape') > no: nape can be performed in dataloader
 INITIAL_DIM=3
 EMBED_DIM=(16 32)                     # (16 32)
 ALPHA_BETA='no'                       # ('yes' 'no')

@@ -50,8 +50,8 @@ class Decoder(nn.Module):
 
                  num_cls = 50,
                  classifier_mode = 'mlp',
-                 fps_method = 'pointops2',
-                 knn_method = 'pytorch3d',
+                 fps_method = 'pytorch', #'pointops2',
+                 knn_method = 'pytorch', #'pytorch3d',
                  **kwargs):
         
         super(Decoder, self).__init__()
@@ -142,14 +142,14 @@ class Decoder(nn.Module):
         self.en_dims = en_dims
 
     def forward(self, xyz, f, norm_plt, cls_label): 
-        # x:[B,C,N]  norm_plt:[B,C,N]  cls_label:[B,num_cls]  dataset=shapenet
-        x = torch.cat([f, norm_plt],dim=1)          # [B, 6, N]  (2,16/32,2048)
+        # x:[B,C,N](2,3,2048) f:[B,D,N](2,16,2048)  norm_plt:[B,C,N](2,3,2048)  cls_label:[B,num_cls](2,16)  dataset=shapenet
+        x = torch.cat([f, norm_plt],dim=1)          # [B, D+C, N]  (2,19,2048)
 
         xyz_list, x_list = self.encoder(xyz, f)
         # xyz_list                                  # [B, S, C]  (2, 2048,1024,512,256,128, 3)
         # x_list                                    # [B, D, S]  (2, 16,32,64,128,128, 2048,1024,512,256,128)
 
-        trans_feat = x_list[-1]
+        trans_feat = x_list[-1]                     # (2,128,128)
 
         # Decoder
         xyz_list.reverse()              # len = 5     [B, S, C]  (2, 128,256,512,1024,2048, 3)
@@ -200,7 +200,8 @@ if __name__ == '__main__':
     def trainable_params(model):
         return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
-    data = torch.rand(2, 3, 2048) # 2 3 2048
+    xyz = torch.rand(2, 3, 2048) # 2 3 2048
+    f = torch.rand(2, 16, 2048) # 2 16 2048
     norm = torch.rand(2, 3, 2048) # 2 3 2048
     cls_label = torch.rand([2, 16]) # 2 16
     print("===> testing modelD ...")
@@ -208,6 +209,6 @@ if __name__ == '__main__':
 
     print(f'params: {trainable_params(decoder)}')
 
-    out = decoder(data, norm, cls_label)  # [2,2048,50]
+    out = decoder(xyz, f, norm, cls_label)  # [2,2048,50]
     
     print(out[0].shape, out[1].shape)

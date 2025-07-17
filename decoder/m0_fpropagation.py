@@ -23,8 +23,8 @@ class FeaturePropagation(nn.Module):
         self.extraction = Block2(out_channel, de_fp_block, blocks, res_dim_ratio=res_expansion, bias=bias)
 
     def forward(self, xyz1, xyz2, points1, points2):
-        # B N 3   -  B S 3  -  B D' N    -  B D'' S
-        # 2 32 3  -  2 8 3  -  2 128 32  -  2 128 8
+        # (1)      2,256,3  2,128,3  2,128,256  2,128,128
+        # (2)
         """
         Input:
             xyz1: input points position data, [B, N, 3]
@@ -37,34 +37,34 @@ class FeaturePropagation(nn.Module):
         # xyz1 = xyz1.permute(0, 2, 1)
         # xyz2 = xyz2.permute(0, 2, 1)
 
-        points2 = points2.permute(0, 2, 1) # B S D''   2 8 128 
-        B, N, C = xyz1.shape               # B N 3     2 32 3
-        _, S, _ = xyz2.shape               # B S 3      2 8 3
+        points2 = points2.permute(0, 2, 1) # 2,128,128
+        B, N, C = xyz1.shape               # 2,256,3
+        _, S, _ = xyz2.shape               # _,128,_      2 8 3
 
-        if S == 1:
+        if S == 1:                         # False
             interpolated_points = points2.repeat(1, N, 1)  #  2 8 128 > 
         else:
-            dists = square_distance(xyz1, xyz2)            # (B N 3, B S 3) > B N S  -  2 32 8
-            dists, idx = dists.sort(dim=-1)                # B N S , B N S  -  2 32 8 , 2 32 8
-            dists, idx = dists[:, :, :3], idx[:, :, :3]    # k=3  B N 3 , B N 3  -  2 32 3 - 2 32 3
+            dists = square_distance(xyz1, xyz2)            # 2,256,128
+            dists, idx = dists.sort(dim=-1)                # 2,256,128  2,256,128
+            dists, idx = dists[:, :, :3], idx[:, :, :3]    # k=3  2,256,3  2,256,3
 
-            dist_recip = 1.0 / (dists + 1e-8)                   # B N 3  -  2 32 3
-            norm = torch.sum(dist_recip, dim=2, keepdim=True)   # B N 1  -  2 32 1
-            weight = dist_recip / norm                          # B N 3  -  2 32 3
-            interpolated_points = torch.sum(index_points(points2, idx) * weight.view(B, N, 3, 1), dim=2) # B N D''  2 32 128
-
+            dist_recip = 1.0 / (dists + 1e-8)                   # 2,256,3
+            norm = torch.sum(dist_recip, dim=2, keepdim=True)   # 2,256,1
+            weight = dist_recip / norm                          # 2,256,3
+            interpolated_points = torch.sum(index_points(points2, idx) * weight.view(B, N, 3, 1), dim=2) # 2,256,128
+            # points2:2,128,128    idx:2,256,3    weight:2,256,3    weight.view(B, N, 3, 1):2,256,3,1
         if points1 is not None:                     # True
-            points1 = points1.permute(0, 2, 1)      # [B N D']   2 32 128
-            new_points = torch.cat([points1, interpolated_points], dim=-1)  # [B N D"""]     2 32 256
+            points1 = points1.permute(0, 2, 1)      # 2,256,128
+            new_points = torch.cat([points1, interpolated_points], dim=-1)  # 2,256,256
         else:
             new_points = interpolated_points
 
-        new_points = new_points.permute(0, 2, 1)    # B D""" N    2 256 32
+        new_points = new_points.permute(0, 2, 1)    # 2,256,256
 
-        new_points = self.fuse(new_points)          #   B D* N > B D** N
+        new_points = self.fuse(new_points)          # MLP(256>512): 2,512,256
         # MLP1(256>512; [2,256,32]>[2,512,32])     MLP2(576>256; [2,576,128]>[2,256,128])
         # MLP3(288>128; [2,288,512]>[2,128,512])   MLP4(144>128; [2,144,2048]>[2,128,2048])
-        new_points = self.extraction(new_points)
+        new_points = self.extraction(new_points)    # Residual: 2,512,256
         # 2 512 32 > 2 512 32  -  2 256 128 > 2 256 128  -  2 128 512 > 2 128 512  -  2 128 2048 > 2 128 2048
-        return new_points
+        return new_points                           # 2,512,256
         # 2 512 32

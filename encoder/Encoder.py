@@ -2,7 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from encoder.imports import *
+try:
+    from encoder.imports import *
+except:
+    from imports import *
 
 class Encoder(nn.Module):
     def __init__(self,
@@ -69,17 +72,18 @@ class Encoder(nn.Module):
             last_ch = out_ch
 
 
-    def forward(self, xyz, x):            # [B, C, N] (2,3,1024)  feature: B,N,D
+    def forward(self, xyz, x):            # xyz: [B, C, N] (2,3,1024)       x: [B, D, 1024] (2,32,1024)
         
-        f = self.embedding(x)
+        f = self.embedding(x)             # f: [B, D, N] (2,32,1024)
 
-        xyz = xyz.permute(0, 2, 1)             # [B, N, C] (2,1024,3)
+        xyz = xyz.permute(0, 2, 1)        # [B, N, C] (2,1024,3)
 
         xyz_list = [xyz]
         f_list = [f]
 
-        for i in range(self.stages):  # i: 1,2,3,4
+        for i in range(self.stages):  # 4 stages
             f = f.permute(0,2,1)      # [B, N/S, D]     (2, 1024>512, 16>32)
+
             # D : 16>32>64>128
 
             xyz_sampled, f_sampled = self.sampling_list[i](xyz, f)                                  # [B, N, C/D] > [B, S, C/D]  (2, 1024>512>256>128>64, 3)  (2, 1024>512>256>128>64, 16>32>64>128)
@@ -103,7 +107,8 @@ class Encoder(nn.Module):
 encoder = Encoder(n=1024, embed=[3,16,'no',False], res_dim_ratio=0.25, bias=False, use_xyz=True, norm_mode="anchor", std_mode="BN1D",
                             dim_ratio=[2, 2, 2, 1], num_blocks1=[1, 1, 2, 1], num_blocks2=[1, 1, 2, 1],
                             k_neighbors=[24,24,24,24], sampling_mode=['fps', 'fps', 'fps', 'fps'],
-                            sampling_ratio=[2, 2, 2, 2])
+                            sampling_ratio=[2, 2, 2, 2],
+                            fps_method='pytorch', knn_method='pytorch')
 
 
 if __name__ == '__main__':
@@ -113,9 +118,10 @@ if __name__ == '__main__':
         return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
     xyz = torch.rand(2, 3, 1024)
+    x = torch.rand(2, 16, 1024)
     print("===> testing Model ...")
     #model_encoder = encoder()
     print(f'number of params: {trainable_params(encoder)}')
-    xyz_list, f_list = encoder(xyz)
+    xyz_list, f_list = encoder(xyz, x)
     print('xyz', [print(xyz.shape, end=', ') for xyz in xyz_list])
     print('f', [print(f.shape, end=', ') for f in f_list])

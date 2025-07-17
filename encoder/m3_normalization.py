@@ -22,10 +22,10 @@ class Normalization(nn.Module):
             self.affine_alpha = nn.Parameter(torch.ones([1,1,1,d + add_d]))
             self.affine_beta = nn.Parameter(torch.zeros([1, 1, 1, d + add_d]))
         
-    def forward(self, xyz_sampled, f_sampled, xyz_grouped, f_grouped):
+    def forward(self, xyz_sampled, f_sampled, xyz_grouped, f_grouped):  #2,512,3 - 2,512,16 - 2,512,24,3 - 2,512,24,19
         b,s,k,_ = xyz_grouped.shape
         # USE_XYZ
-        f_grouped = torch.cat([f_grouped, xyz_grouped],dim=-1) if self.use_xyz else f_grouped
+        f_grouped = torch.cat([f_grouped, xyz_grouped],dim=-1) if self.use_xyz else f_grouped   # f_grouped: [2,512,24,16]>[2,512,24,19]
         # NORMALIZE
         if self.mode is not None: # f_grouped [2,N,k,D] (2,512,24,19)
             if self.mode =="center":   # False
@@ -55,9 +55,9 @@ class Normalization(nn.Module):
             f_grouped = (f_grouped-mean)/(std + 1e-5) #  (2,512,24,19) = (2,512,24,19)/(2,1,1,1)
             
 
-            f = self.affine_alpha*f_grouped + self.affine_beta
-
-        f_grouped = torch.cat([f_grouped, f_sampled.view(b, s, 1, -1).repeat(1, 1, k, 1)], dim=-1)
+            # f = self.affine_alpha*f_grouped + self.affine_beta
+                                        # f_sampled > [2,512,16]
+        f_grouped = torch.cat([f_grouped, f_sampled.view(b, s, 1, -1).repeat(1, 1, k, 1)], dim=-1)  # cat([2,512,24,19],[2,512,24,16]) > [2,512,24,35]
         return f_grouped       # 2,512,24,35
     
 

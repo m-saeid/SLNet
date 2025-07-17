@@ -35,13 +35,13 @@ class Grouping(nn.Module):
             raise Exception(f'fps_method cant be {knn_method}! it must be [pytorch3d, pytorch]')
 
 
-    def forward(self, xyz, f, xyz_sampled, f_sampled): # 2,1024,3  2,1024,16
+    def forward(self, xyz, f, xyz_sampled, f_sampled): # 2,1024,3  2,1024,16  2,512,3  2,512,16
         B, N, C = xyz.shape         # 2,1024,3
         xyz = xyz.contiguous()  # 2,1024,3    xyz [btach, n, xyz]
 
         # GROPPING
         gr = grouping(self.k, 0, xyz, xyz_sampled, mode="knn", knn_method=self.knn_method)  # (2,512,24) = knn(24, (2,1024,3), (2,512,3))
-        if len(gr) == 1:
+        if gr is not tuple:
             idx = gr
             xyz_grouped = index_points(xyz, idx)        # [b, s, k, c]  (2,512,24,3)
         else:
