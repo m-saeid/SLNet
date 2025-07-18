@@ -342,9 +342,3 @@ The following setup was used to reproduce results and benchmarks:
   Cuda compilation tools, release 11.8, V11.8.89
   Build cuda_11.8.r11.8/compiler.31833905_0
   ```
-
-* **Python 3.8+**
-
-* **PyTorch ≥1.10**, **PyTorch3D**, **h5py**, **NumPy**, **SciPy**, etc. (see `requirements.txt`)
-
----
