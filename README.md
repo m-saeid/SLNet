@@ -1,6 +1,7 @@
-# SLNet: A Superlight Network for Point Cloud Learning with Nonparametric Adaptive Point Embedding
+# SuperLightweight Network for 3D Point Clouds
 
-A PyTorch implementation of SLNet, a superlight network for point cloud classification and segmentation based on the paper **“SLNet: A Super‑Lightweight and Geometry‑Adaptive Network\\for 3D Point Cloud Classification and Segmentation”**. SLNet uses a novel **Nonparametric Adaptive Point Embedding (NAPE)** module which embeds raw 3D coordinates using a parameter-free fusion of Gaussian and cosine responses with adaptive bandwidth and  blending, combined with a minimal **Geometric Modulation Unit (GMU)** which applies lightweight per-channel affine transforms for scale-aware feature modulation, a **parameter-free normalization block** enables expansion of feature dimensionality without added parameters, and **shared lightweight residual MLPs** refine features with minimal overhead to achieve competitive accuracy with only 0.14M/0.54M parameters and without relying on attention, graph convolutions, or deep residual stacks.
+A lightweight PyTorch framework for point cloud classification and segmentation.
+This implementation includes nonparametric adaptive point embedding, lightweight geometric modulation, parameter-free normalization, and compact residual MLP refinement. The goal is to achieve strong accuracy with extremely low parameter count, minimal computational overhead, and no reliance on attention mechanisms, graph convolutions, or heavy residual stacks.
 
 ---
 
@@ -70,8 +71,8 @@ A PyTorch implementation of SLNet, a superlight network for point cloud classifi
 1. **Clone this repository**
 
    ```bash
-   git clone https://github.com/your-username/SLNet.git
-   cd SLNet
+   git clone https://github.com/your-username/Super-Lightweight-3D.git
+   cd Super-Lightweight-3D
    ```
 
 2. **Install Python dependencies**
@@ -163,7 +164,7 @@ All training and evaluation tasks can be launched using the shell scripts in the
 Before running any script, ensure you are in the repository root:
 
 ```bash
-cd /path/to/SLNet
+cd /path/to/Super-Lightweight-3D
 ```
 
 ### Running All Tests
@@ -176,7 +177,7 @@ bash scripts/run_all_test.sh
 
 ### Classification on ModelNet40
 
-Train and evaluate SLNet on ModelNet40:
+Train and evaluate on ModelNet40:
 
 ```bash
 bash scripts/run_modelnet.sh
@@ -191,7 +192,7 @@ bash scripts/run_modelnet.sh
 
 ### Classification on ScanObjectNN
 
-Train and evaluate SLNet on ScanObjectNN:
+Train and evaluate on ScanObjectNN:
 
 ```bash
 bash scripts/run_scanobject.sh
@@ -206,7 +207,7 @@ bash scripts/run_scanobject.sh
 
 ### Part Segmentation on ShapeNet
 
-Train and evaluate SLNet for part segmentation on ShapeNet:
+Train and evaluate for part segmentation on ShapeNet:
 
 ```bash
 bash scripts/run_shapenet.sh
@@ -264,7 +265,7 @@ bash scripts/attention_map.sh
 * **`attention/`**
   Contains comparison visualizations (PNG) of:
 
-  1. SLNet’s NAPE block
+  1. NAPE block
   2. NAPE + GMU block
   3. 2nd layer of DGCNN
 
@@ -275,10 +276,10 @@ bash scripts/attention_map.sh
   Root directory for all datasets. Subfolders need to be populated manually as described above.
 
 * **`decoder/`**
-  SLNet’s decoder modules for segmentation tasks.
+  Eecoder modules for segmentation tasks.
 
 * **`encoder/`**
-  SLNet’s encoder modules (NAPE, GMU, and shared-MLP backbone).
+  Encoder modules (NAPE, GMU, and shared-MLP backbone).
 
 * **`pointnet2_ops_lib/`**
   Custom CUDA/C++ operations required by pointnet2. Install with `pip install .`.
@@ -315,9 +316,9 @@ The following setup was used to reproduce results and benchmarks:
 
   ```bash
   $ nvidia-smi
-  +---------------------------------------------------------------------------------------+
-  | NVIDIA-SMI 535.183.01             Driver Version: 535.183.01   CUDA Version: 12.2     |
-  |-----------------------------------------+----------------------+----------------------+
+  +-----------------------------------------------------------------------------+
+  | NVIDIA-SMI 535.183.01   Driver Version: 535.183.01   CUDA Version: 12.2     |
+  |-----------------------------------------+----------------------+------------+
 
   +-----------------------------------------------------------------------------+
   | NVIDIA-SMI 525.147.05   Driver Version: 525.147.05   CUDA Version: 12.0     |
