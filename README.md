@@ -1,6 +1,8 @@
-# SuperLightweight Network for 3D Point Clouds
+# SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition
 
-A lightweight PyTorch framework for point cloud classification and segmentation.
+Official implementation of the paper:
+### SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition
+A super-lightweight PyTorch framework for point cloud classification and segmentation.
 This implementation includes nonparametric adaptive point embedding, lightweight geometric modulation, parameter-free normalization, and compact residual MLP refinement. The goal is to achieve strong accuracy with extremely low parameter count, minimal computational overhead, and no reliance on attention mechanisms, graph convolutions, or heavy residual stacks.
 
 ---
@@ -71,8 +73,8 @@ This implementation includes nonparametric adaptive point embedding, lightweight
 1. **Clone this repository**
 
    ```bash
-   git clone https://github.com/your-username/Super-Lightweight-3D.git
-   cd Super-Lightweight-3D
+   git clone https://github.com/m-saeid/SLNet
+   cd SLNet
    ```
 
 2. **Install Python dependencies**
@@ -164,7 +166,7 @@ All training and evaluation tasks can be launched using the shell scripts in the
 Before running any script, ensure you are in the repository root:
 
 ```bash
-cd /path/to/Super-Lightweight-3D
+cd /path/to/SLNet
 ```
 
 ### Running All Tests
