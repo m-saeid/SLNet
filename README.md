@@ -101,7 +101,7 @@ This implementation includes nonparametric adaptive point embedding, lightweight
    ```
 
 5. **Install `pytorch3d`**
-
+> Ensure `fvcore` and `iopath` are installed before running tasks using PyTorch3D.
    ```bash
    cd pytorch3d
    pip install .
