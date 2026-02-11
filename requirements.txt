@@ -10,3 +10,6 @@ pyyaml==5.4.1
 scikit-learn==0.24.2
 scipy
 tqdm
+pandas
+fvcore
+iopath
