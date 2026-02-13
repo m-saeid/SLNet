@@ -705,7 +705,7 @@ This section provides a visual breakdown of SLNet components and efficiency char
 
 ### 1. Overall Architecture
 
-![SLNet Architecture](images/architecture.png)
+![SLNet Architecture](images/arch.pdf)
 
 **Pipeline:**
 
@@ -728,7 +728,7 @@ The architecture eliminates attention layers and heavy graph convolutions while 
 
 ### 2. NAPE Block
 
-![NAPE Block](images/nape.png)
+![NAPE Block](images/nape.pdf)
 
 The Adaptive Point Embedding (APE) block maps raw 3D coordinates using:
 
@@ -743,7 +743,7 @@ This produces geometry-aware embeddings without learned convolutional kernels.
 
 ### 3. Geometric Modulation Unit (GMU)
 
-![GMU Block](images/gmu.png)
+![GMU Block](images/gmu.pdf)
 
 GMU performs lightweight geometric feature modulation via:
 
