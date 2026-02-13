@@ -1,6 +1,6 @@
 # SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition
 
-Official implementation of the paper:
+Official implementation of **International Conference on Robotics & Automation(ICRA) 2026** the paper:
 
 ### **SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition**
 
@@ -585,3 +585,20 @@ SLNet is explicitly designed for:
 with full CUDA acceleration and minimal memory pressure.
 
 ---
+
+## 📝 Citation
+
+```bibtex
+@article{saeid2026slnet,
+  title={SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition},
+  author={Saeid, Mohammad and Salarpour, Amir and MohajerAnsari, Pedram and Pes{\'e}, Mert D},
+  journal={...},
+  year={2026}
+}
+```
+
+---
+
+## 📬 Contact
+
+📧 Questions? Reach out to: **[imm.saeid@gmail.com](imm.saeid@gmail.com)**
