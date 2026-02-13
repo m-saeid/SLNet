@@ -74,8 +74,13 @@ This makes SLNet particularly suitable for **edge devices, embedded GPUs, and re
 
 These steps support both:
 
-* **Standard Linux x86_64 GPUs**
-* **ARM64 embedded GPUs (Jetson Orin Nano)**
+* **✅ x86_64 Linux + NVIDIA GPU (Desktop / Workstation)**
+* **✅ ARM64 embedded GPUs (Jetson Orin Nano / Orin family)**
+
+> ⚠️ **Important (Jetson users):**  
+> Jetson Orin GPUs are Ampere-based with compute capability **8.7 (sm_87)**.  
+> CUDA ≥ 12.0 does **not** support legacy architectures (e.g. `compute_37`).  
+> Follow the Jetson-specific steps below carefully to avoid CUDA build failures.
 
 ### 1) Clone repository
 
@@ -86,7 +91,7 @@ cd SLNet
 
 ---
 
-### 2) Create virtual environment
+### 2) Create Python Virtual Environment
 
 ```bash
 python3 -m venv ~/venvs/slnet
@@ -95,16 +100,42 @@ pip install --upgrade pip setuptools wheel
 ```
 
 ---
-### 3) Install Python dependencies
 
+### 3) Install Python dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
 ---
 
-### 4) Install Pytorch dependencies
-https://pytorch.org/
+### 4) Install PyTorch
+Install PyTorch matching your CUDA version.
+
+👉 https://pytorch.org/
+
+x86_64 (Desktop GPU example, CUDA 12.1)
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+```
+
+#### Jetson Orin (ARM64)
+
+PyTorch must match your JetPack / CUDA version.
+Use NVIDIA-provided wheels for Jetson.
+
+Verify installation:
+```bash
+python - << 'EOF'
+import torch
+print("Torch:", torch.__version__)
+print("CUDA available:", torch.cuda.is_available())
+EOF
+```
+
+##### Expected output:
+```yaml
+CUDA available: True
+```
 
 ---
 
@@ -117,10 +148,14 @@ sudo apt install gcc-10 g++-10
 export CC=gcc-10
 export CXX=g++-10
 ```
+Optional: Add the export lines to ~/.bashrc for persistence.
 
 ---
 
 ### 6) Install pointnet2_ops_lib
+This module builds custom CUDA kernels used by SLNet.
+
+#### x86_64 (Desktop GPU)
 
 ```bash
 cd pointnet2_ops_lib
@@ -128,27 +163,117 @@ pip install .
 cd ..
 ```
 
----
-
-### 7) Install PyTorch3D (CUDA enabled)
-
-#### Jetson Orin Nano (ARM64 + CUDA 12.6)
-
+#### Jetson Orin Nano (ARM64 + CUDA 12.X)
+Set required CUDA architecture flags:
 ```bash
-cd pytorch3d
-export FORCE_CUDA=1
 export TORCH_CUDA_ARCH_LIST="8.7"
-export CUDA_HOME=/usr/local/cuda
-export MAX_JOBS=2
+export FORCE_CUDA=1
+```
+
+If building fails, ensure the following line is present inside:
+* pointnet2_ops_lib/setup.py
+* pointnet2_ops_lib/pointnet2_ops/pointnet2_utils.py
+```python
+os.environ["TORCH_CUDA_ARCH_LIST"] = "8.7"
+```
+
+Build and install
+```bash
+cd pointnet2_ops_lib
 pip install -e . --no-build-isolation
 cd ..
 ```
 
-This builds full CUDA kernels for:
+Expected result:
+```nginx
+Successfully built pointnet2_ops
+Successfully installed pointnet2_ops-3.0.0
+```
 
+Verify installation:
+```bash
+python - << 'EOF'
+import pointnet2_ops._ext
+print("pointnet2_ops extension loaded successfully")
+EOF
+```
+
+---
+
+### 7) Install PyTorch3D (CUDA enabled)
+#### x86_64 (Desktop GPU)
+```bash
+pip install pytorch3d
+```
+or build from source:
+```bash
+git https://github.com/facebookresearch/pytorch3d
+cd pytoch3d
+pip install -e .
+cd ..
+```
+
+#### Jetson Orin Nano (ARM64 + CUDA 12.x)
+PyTorch3D must be built from source on Jetson:
+```bash
+git clone https://github.com/facebookresearch/pytorch3d
+cd pytorch3d
+
+export FORCE_CUDA=1
+export TORCH_CUDA_ARCH_LIST="8.7"
+export CUDA_HOME=/usr/local/cuda
+export MAX_JOBS=2
+
+pip install -e . --no-build-isolation
+cd ..
+
+```
+
+#### This builds full CUDA kernels for:
 * knn_points
 * ball_query
 * sample_farthest_points
+
+#### Verify PyTorch3D CUDA
+```bash
+python - << 'EOF'
+import torch
+from pytorch3d.ops import knn_points
+print("CUDA available:", torch.cuda.is_available())
+EOF
+```
+
+### 8) Final verification
+```bash
+python - << 'EOF'
+import torch
+import pointnet2_ops
+import pytorch3d
+
+print("CUDA:", torch.cuda.is_available())
+print("Device:", torch.cuda.get_device_name(0))
+EOF
+```
+
+#### Jetson Orin output should resemble:
+```vbnet
+CUDA: True
+Device: Orin (nvgpu)
+```
+
+
+---
+
+### Notes for Jetson Users
+* Jetson Orin GPUs use sm_87
+* Always export:
+```bash
+export TORCH_CUDA_ARCH_LIST=8.7
+export FORCE_CUDA=1
+```
+* CUDA ≥ 12.0 removes support for legacy GPU architectures
+
+After completing these steps, SLNet is fully operational on both desktop GPUs and Jetson Orin devices.
 
 ---
 
