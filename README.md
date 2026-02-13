@@ -1,6 +1,6 @@
 # SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition
 
-Official implementation of **International Conference on Robotics & Automation(ICRA) 2026** the paper:
+Official implementation of the **ICRA 2026** paper:
 
 ### **SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition**
 
