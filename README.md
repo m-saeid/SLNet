@@ -21,7 +21,7 @@ The design objective is **maximum accuracy-per-parameter efficiency**, achieving
 * no graph convolutions
 * no heavy residual stacks
 
-This makes SLNet particularly suitable for **edge devices, embedded GPUs, and resource-constrained systems** such as NVIDIA Jetson platforms.
+### This makes SLNet particularly suitable for **edge devices, embedded GPUs, and resource-constrained systems** such as NVIDIA Jetson platforms.
 
 ---
 
