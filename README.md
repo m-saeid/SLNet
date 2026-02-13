@@ -758,7 +758,7 @@ It acts as a geometry-sensitive gating mechanism between embedding and encoder r
 
 ### 4. Efficiency Radar Plot
 
-![Radar Plot](https://github.com/m-saeid/SLNet/blob/main/images/radar_plot.png)
+![Radar Plot](https://github.com/m-saeid/SLNet/blob/main/images/radar_plot.PNG)
 
 Radar plot comparing **NetScore** and **NetScore+** for:
 
@@ -775,7 +775,7 @@ SLNet-S dominates in composite efficiency metrics due to its ultra-low parameter
 
 ### 5. Qualitative Saliency Comparison
 
-![Qualitative Comparison](https://github.com/m-saeid/SLNet/blob/main//images/qualitative_comparison.png)
+![Qualitative Comparison](https://github.com/m-saeid/SLNet/blob/main//images/qualitative_comparison.PNG)
 
 Comparison on ModelNet40 samples:
 
