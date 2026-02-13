@@ -386,7 +386,7 @@ Device: Orin (nvgpu)
 
 ---
 
-# Jetson Notes
+### Jetson Notes
 
 * GPU Architecture: **sm_87**
 * Always export:
