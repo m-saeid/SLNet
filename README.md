@@ -437,8 +437,16 @@ data/
     └── modelnet_fewshot/
 ```
 
-No manual preprocessing is required.
-All sampling and normalization are handled internally.
+S3DIS Dataset:
+Solve the problem in the S3DIS dataset with the help of this [link](https://github.com/Pointcept/PointTransformerV2/issues/25).
+Run the following code to prepare the S3DIS dataset.
+```python
+python data/preprocess_s3dis.py --raw data/dataset/s3dis/Stanford3dDataset_v1.2_Aligned_Version --out data/dataset/s3dis/processed/Stanford3dDataset_v1.2_Aligned_Version
+```
+
+Other Datasets:
+> No manual preprocessing is required.
+> All sampling and normalization are handled internally.
 
 ---
 
