@@ -53,12 +53,13 @@ The design objective is **maximum accuracy-per-parameter efficiency**, achieving
 ```
 .
 ├── attention/                     
-│   └── *.png          # Attention map images comparing NAPE, NAPE+GMU, and DGCNN
+│   └── *.png                        # Attention map images comparing NAPE, NAPE+GMU, and DGCNN
 ├── checkpoints/                     # Trained model checkpoints
 ├── data/                           
-│   └── dataset/                    # All datasets
+│   └── dataset/                     # All datasets
 ├── decoder/                         # Segmentation decoders
 ├── encoder/                         # NAPE, GMU, backbone modules
+├── model_slnet_t                    # SLNet-T model (SLNet-Transformer)
 ├── pointnet2_ops_lib/               # Custom CUDA/C++ ops (compiled)
 ├── pytorch3d/                       # PyTorch3D source (compiled from source)
 ├── scripts/                         # Training / evaluation scripts
@@ -72,7 +73,10 @@ The design objective is **maximum accuracy-per-parameter efficiency**, achieving
 
 # Installation
 
-SLNet supports:
+The SLNet-T is trained on the ✅ **Nvidia RTX 5090 GPU**
+> details of its installation can be found in this [link](https://github.com/m-saeid/blackwell3d-rtx5090-stack).
+
+SLNet-S/M supports:
 
 * ✅ **x86_64 Linux + NVIDIA Desktop GPU**
 * ✅ **ARM64 NVIDIA Jetson Orin (JetPack 6.x)**
@@ -427,6 +431,7 @@ Required structure:
 data/
 └── dataset/
     ├── modelnet40_ply_hdf5_2048/
+    ├── s3dis/Stanford3dDataset_v1.2_Aligned_Version/
     ├── scanobject/h5_files/
     ├── shapenetcore_partanno_segmentation_benchmark_v0_normal/
     └── modelnet_fewshot/
@@ -475,6 +480,14 @@ bash scripts/run_scanobject.sh
 
 ```bash
 bash scripts/run_shapenet.sh
+```
+
+---
+
+### Semantic Segmentation on S3DIS
+
+```bash
+bash scripts/run_s3dis.sh
 ```
 
 ---
