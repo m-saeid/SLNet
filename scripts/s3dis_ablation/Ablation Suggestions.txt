@@ -1,0 +1,9 @@
+Experiment	                    Change	                                        Expected effect
+All-MLP vs Hybrid	            Remove attn stages, use MLP in all stages	    -3–5 mIoU, +40% speed
+All-Attn vs Hybrid	            Use attn in all stages	                        +1 mIoU, -30% speed
+k=8 vs k=16 vs k=32	            Change neighbor count	                        k=8 fastest but -2 mIoU; k=32 +1 mIoU but slow
+num_points 8k vs 16k vs 32k	    Crop size	                                    16k is best tradeoff for this architecture
+Focal γ=1 vs 2 vs 3	            Loss tuning	                                    γ=2 standard; γ=3 helps rare classes but instability risk
+GMP fusion re-added	            Add back GMP from original decoder	            +0.5–1 mIoU, +15% memory
+Dropout 0.2 vs 0.3 vs 0.5	    Regularization	                                0.3 standard for S3DIS
+
