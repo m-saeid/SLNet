@@ -589,6 +589,7 @@ Outputs png comparisons between:
 
 * `encoder/` – NAPE, GMU, backbone
 * `decoder/` – segmentation heads
+* `model_slnet_t/` – SLNet-T model
 * `tasks/` – training/eval entry points
 * `scripts/` – automation wrappers
 * `utils/` – loaders, metrics, logging
