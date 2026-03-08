@@ -1,0 +1,30 @@
+Architecture Design: Hybrid Point Transformer
+Design rationale: MLP blocks in shallow stages (fast, captures fine geometry), local self-attention in deep stages (captures context). This is the approach used by StratifiedTransformer and Point Transformer v2 hybrid variants — best speed/accuracy tradeoff.
+Input (B, F, N)   F=6 [rgb + norm_xyz]
+      │
+  InputProj  6→32
+      │
+  ┌───┴──────────────────────────────────────────────────────┐
+  │  Stage 0: N→N/4    32→64    MLP block  k=16  [fine geo]  │
+  │  Stage 1: N/4→N/16  64→128  MLP block  k=16  [mid]       │
+  │  Stage 2: N/16→N/64 128→256 Attn block k=24  [context]   │
+  │  Stage 3: N/64→N/256 256→512 Attn block k=24 [global]    │
+  └───┬──────────────────────────────────────────────────────┘
+      │  save [skip0, skip1, skip2, skip3]
+  ┌───┴───────────────────────────────────────────────────────┐
+  │  FP3:  interp N/64←N/256  concat(256+512)→256             │
+  │  FP2:  interp N/16←N/64   concat(128+256)→128             │
+  │  FP1:  interp N/4←N/16    concat(64+128)→64               │
+  │  FP0:  interp N←N/4       concat(32+64)→64                │
+  └───┬───────────────────────────────────────────────────────┘
+      │
+  Head: 64→64→13  (GN + Dropout)
+Local Attention Block (stages 2-3):
+Point Transformer v1 formulation — fast because attention is over k neighbors only (not global).
+q = Linear(C→C)(x_i)
+k = Linear(C→C)(x_j)   for j in N(i)
+v = Linear(C→C)(x_j)
+pos = MLP([3→C→C])(x_j.xyz - x_i.xyz)   ← position encoding
+attn = softmax( (q - k + pos) · w )       ← subtraction not dot-product (PT v1)
+out = sum( attn * (v + pos) )
+out = Linear(C→C)(out) + x_i             ← residual
