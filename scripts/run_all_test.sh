@@ -11,6 +11,9 @@ python tasks/cls_scanobject.py --epoch "$EPOCH" --fps_method "$FPS_METHOD" --knn
 # shapenet
 python tasks/partseg_shapenet.py --epoch "$EPOCH" --fps_method "$FPS_METHOD" --knn_method "$KNN_METHOD" # --workers 6 --batch_size 16 --test_batch_size 8
 
+# s3dis
+python tasks/semseg_s3dis.py --epoch "$EPOCH"
+
 # fewshot
 python tasks/cls_fewshot.py --epoch "$EPOCH" --fps_method "$FPS_METHOD" --knn_method "$KNN_METHOD"
 
