@@ -26,8 +26,9 @@ Official implementation of the **ICRA 2026** paper:
   <a href="https://github.com/m-saeid/ModeNetR_PointSkipNet/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"/>
   </a>
+  -->
 </p>
--->
+
 
 
 SLNet is a super-lightweight PyTorch framework for 3D point cloud classification and segmentation.
