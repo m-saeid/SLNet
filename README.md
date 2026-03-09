@@ -4,6 +4,8 @@ Official implementation of the **ICRA 2026** paper:
 
 ### **SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition**
 
+📄 [View Paper](https://drive.google.com/file/d/1pv94mkKNlWu1Jbn_Z9ym3BcWCKuXLi7W/view?usp=sharing)
+
 SLNet is a super-lightweight PyTorch framework for 3D point cloud classification and segmentation.
 The architecture integrates:
 
