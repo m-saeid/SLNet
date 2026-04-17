@@ -886,7 +886,7 @@ with full CUDA acceleration and minimal memory pressure.
 @article{saeid2026slnet,
   title={SLNet: A Super-Lightweight Geometry-Adaptive Network for 3D Point Cloud Recognition},
   author={Saeid, Mohammad and Salarpour, Amir and MohajerAnsari, Pedram and Pes{\'e}, Mert D},
-  journal={...},
+  booktitle={2026 IEEE International Conference on Robotics and Automation (ICRA)}, 
   year={2026}
 }
 ```
